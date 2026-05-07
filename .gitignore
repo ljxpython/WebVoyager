@@ -1,6 +1,7 @@
 *.log
 downloads/*.pdf
 results/20*
+results/cua_*
 test_code.py
 __pycache__
 .env

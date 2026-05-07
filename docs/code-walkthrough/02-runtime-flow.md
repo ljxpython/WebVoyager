@@ -28,7 +28,7 @@
 直接运行示例：
 
 ```bash
-rtk python -u "run.py" \
+uv run python -u "run.py" \
   --test_file "data/tasks_test.jsonl" \
   --api_key "$OPENAI_API_KEY" \
   --headless \
@@ -280,4 +280,3 @@ ANSWER; resource-watch/resource-watch with 63 stars
 ```
 
 这说明 WebVoyager 的结果不是只看最终答案，而是完整保存了 agent 在网页上的每一步选择。
-

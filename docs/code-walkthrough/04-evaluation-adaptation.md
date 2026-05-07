@@ -200,7 +200,7 @@ max_iter = 15
 路线 A 示例命令仍然走 `run.py`，只是内部决策函数换成你的 Agent：
 
 ```bash
-rtk python -u "run.py" \
+uv run python -u "run.py" \
   --test_file "data/agent_eval_smoke.jsonl" \
   --output_dir "results" \
   --headless \
@@ -398,4 +398,3 @@ results/
 5. 产出第一版 `success_rate + avg_steps + failure_type`。
 
 这样就能开始客观评估你的 Agent，而不是凭感觉吹牛。
-

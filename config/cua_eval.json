@@ -1,0 +1,135 @@
+{
+  "model": {
+    "provider": "openai",
+    "baseURL": "${DOUBAO_API_URL:-https://ark.cn-beijing.volces.com/api/v3}",
+    "apiKey": "${OPENAI_API_KEY}",
+    "model": "${DOUBAO_API_MODEL:-doubao-seed-2-0-pro-260215}",
+    "temperature": 0.0,
+    "streaming": true
+  },
+  "agent": {
+    "headless": "auto",
+    "maxSteps": 15,
+    "maxDurationMs": 0,
+    "maxStepDurationMs": 120000,
+    "maxPauseDurationMs": 0,
+    "stepDelay": 200,
+    "screenshotBeforeAction": true,
+    "runsDir": "results/cua_raw_runs",
+    "maxImages": 3,
+    "autoHeadlessVerify": {
+      "enabled": true,
+      "mode": "same_step",
+      "afterTools": [
+        "app_open",
+        "mouse_click",
+        "mouse_right_click",
+        "mouse_double_click",
+        "mouse_move",
+        "mouse_scroll",
+        "mouse_drag",
+        "press_mouse",
+        "release_mouse",
+        "clipboard_type",
+        "key_press",
+        "hotkey"
+      ],
+      "forceScreenshotAfterNoObserveSteps": 0
+    },
+    "knowledge": {
+      "enabled": false,
+      "dir": "knowledge",
+      "maxDocs": 20,
+      "maxCharsPerDoc": 4000,
+      "maxCharsSystem": 8000,
+      "includeImages": true,
+      "matchByDescription": true,
+      "fallbackToAll": false
+    },
+    "reasoning": {
+      "enabled": true,
+      "maxChars": 200
+    },
+    "records": {
+      "enabled": false,
+      "maxCharsPerRecord": 4000,
+      "maxCharsRead": 8000
+    },
+    "brain": {
+      "enabled": false,
+      "mode": "advice",
+      "windowSteps": 6,
+      "interval": 3
+    },
+    "doneGate": {
+      "enabled": false,
+      "mode": "enforce",
+      "maxRejects": 5
+    },
+    "officecliCheckpoint": {
+      "enabled": false,
+      "pptxEveryNSlides": 5,
+      "docxEveryNWrites": 10,
+      "xlsxEveryNWrites": 10,
+      "writeRecord": false
+    },
+    "artifacts": {
+      "pruneAfterRun": false,
+      "keepThumbnails": false,
+      "thumbnail": {
+        "maxWidth": 640,
+        "format": "jpeg",
+        "quality": 70
+      }
+    }
+  },
+  "tools": {
+    "officecli": {},
+    "keyboard": {
+      "linuxPasteKeys": ["ctrl+shift+v", "ctrl+v", "Shift+Insert"],
+      "linuxHotkeyFallback": {
+        "enabled": true,
+        "mode": "both",
+        "map": {
+          "ctrl+c": ["ctrl+shift+c", "ctrl+c"],
+          "ctrl+v": ["ctrl+shift+v", "ctrl+v"],
+          "ctrl+x": ["ctrl+shift+x", "ctrl+x"],
+          "ctrl+a": ["ctrl+shift+a", "ctrl+a"],
+          "ctrl+l": ["ctrl+shift+l", "ctrl+l"]
+        }
+      }
+    },
+    "screenshot": {
+      "format": "jpeg",
+      "jpegQuality": 85,
+      "maxWidth": 1280
+    },
+    "osascriptExec": {
+      "timeoutMs": 15000,
+      "maxOutputChars": 8000
+    },
+    "shellExec": {
+      "timeoutMs": 15000,
+      "maxOutputChars": 8000
+    },
+    "shellSh": {
+      "enabled": false,
+      "timeoutMs": 15000,
+      "maxOutputChars": 8000
+    }
+  },
+  "cache": {
+    "screenshot": {
+      "enabled": true,
+      "ttlSeconds": 30
+    }
+  },
+  "coords": {
+    "mode": "auto",
+    "normalizedInput": true
+  },
+  "server": {
+    "port": 8080,
+    "host": "0.0.0.0"
+  }
+}
