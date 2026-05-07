@@ -93,8 +93,11 @@ Complete this task:
 
 Rules:
 - Use the browser UI to complete the task.
-- If the target website is already open or loading, do not repeatedly open the same URL in new tabs.
-- For this benchmark, prefer continuing from the current page state over restarting navigation.
+- Use Google Chrome as the browser for this benchmark.
+- Treat this task as independent from any previous task.
+- At the start of the task, focus Google Chrome and navigate the active tab to the exact URL above using the browser address bar.
+- Do not rely on pages, forms, answers, or browser state left from previous tasks.
+- Focus only on the current task instruction; do not continue or reuse goals from any previous task.
 - Do not use shell, scripts, direct HTTP requests, or filesystem shortcuts to obtain the answer unless the evaluation profile explicitly allows tool augmentation.
 - When the task is complete, call done with the final answer in the reason.
 - The done reason must contain the answer, not just "task completed".
