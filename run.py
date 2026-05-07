@@ -18,6 +18,29 @@ from utils import get_web_element_rect, encode_image, extract_information, print
     get_webarena_accessibility_tree, get_pdf_retrieval_ans_from_assistant, clip_message_and_obs, clip_message_and_obs_text_only
 
 
+def load_env_file(env_path):
+    env_values = {}
+    if not env_path or not os.path.exists(env_path):
+        return env_values
+
+    with open(env_path, 'r', encoding='utf-8') as f:
+        for raw_line in f:
+            line = raw_line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+
+            key, value = line.split('=', 1)
+            key = key.strip()
+            if key.startswith('export '):
+                key = key[len('export '):].strip()
+
+            value = value.strip().strip('"').strip("'")
+            env_values[key] = value
+            os.environ.setdefault(key, value)
+
+    return env_values
+
+
 def setup_logger(folder_path):
     log_file_path = os.path.join(folder_path, 'agent.log')
 
@@ -237,6 +260,8 @@ def main():
     parser.add_argument('--max_iter', type=int, default=5)
     parser.add_argument("--api_key", default="key", type=str, help="YOUR_OPENAI_API_KEY")
     parser.add_argument("--api_model", default="gpt-4-vision-preview", type=str, help="api model name")
+    parser.add_argument("--api_base", default=None, type=str, help="OpenAI-compatible API base URL")
+    parser.add_argument("--env_file", default=".env", type=str, help="Environment file for API settings")
     parser.add_argument("--output_dir", type=str, default='results')
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--max_attached_imgs", type=int, default=1)
@@ -253,8 +278,40 @@ def main():
 
     args = parser.parse_args()
 
+    env_values = load_env_file(args.env_file)
+    if args.api_key == "key":
+        args.api_key = (
+            os.getenv("OPENAI_API_KEY")
+            or os.getenv("DOUBAO_API_KEY")
+            or env_values.get("OPENAI_API_KEY")
+            or env_values.get("DOUBAO_API_KEY")
+            or args.api_key
+        )
+    if args.api_model == "gpt-4-vision-preview":
+        args.api_model = (
+            os.getenv("OPENAI_API_MODEL")
+            or os.getenv("DOUBAO_API_MODEL")
+            or env_values.get("OPENAI_API_MODEL")
+            or env_values.get("DOUBAO_API_MODEL")
+            or args.api_model
+        )
+    if not args.api_base:
+        args.api_base = (
+            os.getenv("OPENAI_API_BASE")
+            or os.getenv("OPENAI_BASE_URL")
+            or os.getenv("DOUBAO_API_URL")
+            or env_values.get("OPENAI_API_BASE")
+            or env_values.get("OPENAI_BASE_URL")
+            or env_values.get("DOUBAO_API_URL")
+        )
+    if not args.api_key or args.api_key == "key":
+        raise ValueError("Missing API key. Set OPENAI_API_KEY/DOUBAO_API_KEY in .env or pass --api_key.")
+
     # OpenAI client
-    client = OpenAI(api_key=args.api_key)
+    client_kwargs = {"api_key": args.api_key}
+    if args.api_base:
+        client_kwargs["base_url"] = args.api_base
+    client = OpenAI(**client_kwargs)
 
     options = driver_config(args)
 
