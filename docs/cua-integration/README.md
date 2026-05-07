@@ -26,3 +26,4 @@
 4. [计划清单](04-plan-checklist.md)：编码任务拆解和完成标准。
 5. [测试清单](05-test-checklist.md)：每个阶段要验证什么，怎么判定过关。
 6. [使用说明](06-usage.md)：用 uv 跑适配器、转换器和评测器。
+7. [端到端流程讲解](07-end-to-end-flow.md)：从 WebVoyager 任务到 CUA 运行、格式转换、自动评测和结果解读。
